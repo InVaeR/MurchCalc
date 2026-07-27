@@ -1,0 +1,17 @@
+// АКТУАЛЬНАЯ структура (обновляйте при изменениях):
+// src/
+// ├── core/                  # Ядро, независимое от UI
+// │   ├── engine/            # Математический движок
+// │   │   ├── functions.ts   # Реестр функций (sin, sqrt...)
+// │   │   ├── evaluator.test.ts
+// │   │   ├── evaluator.ts   # Вычисление AST
+// │   │   ├── lexer.ts       # Токенизация
+// │   │   └── parser.ts      # AST
+// │   └── types.ts
+// │
+// НЕ РЕАЛИЗОВАНО (roadmap):
+// ├── modes/     — text/, spreadsheet/, basic/
+// ├── ui/        — components/, layout/, theme/
+// ├── storage/   — персистентность
+// ├── utils/
+// └── main.ts
