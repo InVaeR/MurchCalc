@@ -28,8 +28,9 @@ npm run dev
 
 ## Структура проекта
 
-> ⚠️ Реализовано только ядро (`src/core/`) и временный UI (`main.ts`).
-> Разделы `modes/`, `ui/`, `storage/`, `utils/` — план, ещё не созданы.
+> Реализовано: ядро (`src/core/`), режимы **Text** и **Basic** (`src/modes/`),
+> UI-оболочка с темами (`src/ui/`) и автосохранение (`src/storage/`).
+> В планах: Spreadsheet Mode, экспорт/импорт, IndexedDB.
 
 ```
 src/

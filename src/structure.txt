@@ -1,17 +1,33 @@
 // АКТУАЛЬНАЯ структура (обновляйте при изменениях):
 // src/
-// ├── core/                  # Ядро, независимое от UI
-// │   ├── engine/            # Математический движок
-// │   │   ├── functions.ts   # Реестр функций (sin, sqrt...)
+// ├── core/                      # Ядро, независимое от UI
+// │   ├── engine/                # Математический движок
+// │   │   ├── functions.ts       # Реестр функций (sin, sqrt...)
 // │   │   ├── evaluator.test.ts
-// │   │   ├── evaluator.ts   # Вычисление AST
-// │   │   ├── lexer.ts       # Токенизация
-// │   │   └── parser.ts      # AST
-// │   └── types.ts
+// │   │   ├── evaluator.ts       # Вычисление AST (+ setVariable/clearVariables)
+// │   │   ├── lexer.ts           # Токенизация
+// │   │   └── parser.ts          # AST
+// │   ├── ModeRegistry.ts        # Реестр режимов
+// │   └── types.ts               # Общие типы (Engine, CalculatorMode...)
 // │
+// ├── modes/                     # Режимы (реализуют CalculatorMode)
+// │   ├── basic/
+// │   │   └── BasicMode.ts       # Кнопочный калькулятор
+// │   └── text/
+// │       ├── TextMode.ts        # Построчный ввод + результаты
+// │       ├── lineEngine.ts      # Построчный вычислитель (тестируемый)
+// │       └── lineEngine.test.ts
+// │
+// ├── ui/                        # UI-слой (vanilla DOM)
+// │   ├── App.ts                 # Оболочка: табы, тема, контейнер режима
+// │   └── theme/
+// │       └── theme.css          # Темы (светлая/тёмная) + адаптив
+// │
+// ├── storage/
+// │   └── LocalStore.ts          # Версионируемое хранилище (LocalStorage)
+// │
+// └── main.ts                    # Точка входа: регистрация режимов + App
+//
 // НЕ РЕАЛИЗОВАНО (roadmap):
-// ├── modes/     — text/, spreadsheet/, basic/
-// ├── ui/        — components/, layout/, theme/
-// ├── storage/   — персистентность
-// ├── utils/
-// └── main.ts
+// ├── modes/spreadsheet/         # Excel-подобный режим
+// └── storage → IndexedDB        # для нескольких документов

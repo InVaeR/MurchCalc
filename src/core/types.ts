@@ -90,4 +90,6 @@ export interface CalculatorMode {
 
 export interface Engine {
   evaluate(expression: string, context?: Partial<EvaluationContext>): EvaluationResult;
+  setVariable?(name: string, value: number): void;
+  clearVariables?(): void;
 }

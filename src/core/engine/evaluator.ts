@@ -138,6 +138,10 @@ export class Evaluator implements Engine {
     this.context.variables.set(name, value);
   }
 
+  clearVariables(): void {
+    this.context.variables.clear();
+  }
+
   getContext(): EvaluationContext {
     return this.context;
   }

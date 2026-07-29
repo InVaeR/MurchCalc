@@ -5,6 +5,6 @@ export default defineConfig({
   base: '/MurchCalc/',
   test: {
     globals: true,
-    environment: 'node',
+    environment: 'jsdom',
   },
 });

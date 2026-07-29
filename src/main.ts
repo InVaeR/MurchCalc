@@ -1,7 +1,13 @@
 /**
  * Точка входа приложения.
+ * Регистрирует режимы и запускает UI-оболочку App.
  */
 import { Evaluator } from './core/engine/evaluator';
+import { ModeRegistry } from './core/ModeRegistry';
+import { App } from './ui/App';
+import { BasicMode } from './modes/basic/BasicMode';
+import { TextMode } from './modes/text/TextMode';
+import './ui/theme/theme.css';
 
 function bootstrap(): void {
   const root = document.getElementById('app');
@@ -9,33 +15,13 @@ function bootstrap(): void {
     throw new Error('Не найден элемент #app');
   }
 
+  // Регистрируем режимы (порядок = порядок табов).
+  ModeRegistry.register(new TextMode());
+  ModeRegistry.register(new BasicMode());
+
   const engine = new Evaluator();
-
-  // Временный UI для проверки движка (позже заменится на режимы).
-  root.innerHTML = `
-    <main style="font-family: system-ui; max-width: 640px; margin: 40px auto;">
-      <h1>MurchCalc</h1>
-      <p>Введите выражение (например: <code>2 + 3 * 4</code>, <code>sqrt(16) + pi</code>)</p>
-      <input id="expr" type="text" style="width:100%; padding:8px; font-size:16px;" />
-      <div id="result" style="margin-top:12px; font-size:18px;"></div>
-    </main>
-  `;
-
-  const input = document.getElementById('expr') as HTMLInputElement;
-  const output = document.getElementById('result') as HTMLDivElement;
-
-  input.addEventListener('input', () => {
-    const res = engine.evaluate(input.value);
-    if (res.error) {
-      output.style.color = 'crimson';
-      output.textContent = `Ошибка: ${res.error}`;
-    } else if (res.value !== undefined) {
-      output.style.color = 'green';
-      output.textContent = `= ${res.value}`;
-    } else {
-      output.textContent = '';
-    }
-  });
+  const app = new App(root, engine);
+  app.start();
 }
 
 bootstrap();
