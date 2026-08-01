@@ -108,7 +108,7 @@ export class BasicMode implements CalculatorMode {
     this.copyBtn.title = 'Копировать результат';
     this.copyBtn.addEventListener('click', () => this.handleCopy());
 
-    top.append(this.historyBtn, titleEl, this.memIndicator, this.copyBtn);
+    top.append(this.historyBtn, titleEl, this.memIndicator);
 
     const body = document.createElement('div');
     body.className = 'basic-body';
@@ -149,8 +149,12 @@ export class BasicMode implements CalculatorMode {
     this.sub = document.createElement('div');
     this.sub.className = 'basic-sub';
 
+    const resultRow = document.createElement('div');
+    resultRow.className = 'basic-result';
+
     this.display = document.createElement('div');
     this.display.className = 'basic-display';
+    resultRow.append(this.display, this.copyBtn);
 
     const memRow = document.createElement('div');
     memRow.className = 'basic-memory';
@@ -176,8 +180,8 @@ export class BasicMode implements CalculatorMode {
       grid.appendChild(btn);
     }
 
-    calcWrap.append(this.sub, this.display, memRow, grid);
-    body.append(this.historyEl, calcWrap);
+    calcWrap.append(this.sub, resultRow, memRow, grid);
+    body.append(calcWrap, this.historyEl);
     container.append(top, body);
 
     this.historyVisible = window.innerWidth >= 720;
