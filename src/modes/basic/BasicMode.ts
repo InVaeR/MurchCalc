@@ -13,34 +13,34 @@ interface BasicState {
 }
 
 const LAYOUT: Array<{ label: string; cls?: string; insert?: string; action?: string }> = [
-  { label: 'C', cls: 'fn', action: 'clear' },
-  { label: '⌫', cls: 'fn', action: 'back' },
-  { label: '%', cls: 'fn', action: 'percent' },
+  { label: 'e', cls: 'fn', insert: 'e' },
+  { label: 'pi', cls: 'fn', insert: 'pi' },
   { label: '√', cls: 'fn', insert: 'sqrt(' },
+  { label: 'C', cls: 'fn', action: 'clear' },
+  { label: '<', cls: 'fn', action: 'back' },
 
   { label: '7', insert: '7' },
   { label: '8', insert: '8' },
   { label: '9', insert: '9' },
   { label: '/', cls: 'op', insert: '/' },
+  { label: '%', cls: 'fn', action: 'percent' },
 
   { label: '4', insert: '4' },
   { label: '5', insert: '5' },
   { label: '6', insert: '6' },
   { label: '*', cls: 'op', insert: '*' },
+  { label: '±', cls: 'fn', action: 'negate' },
 
   { label: '1', insert: '1' },
   { label: '2', insert: '2' },
   { label: '3', insert: '3' },
   { label: '-', cls: 'op', insert: '-' },
+  { label: '^', cls: 'op', insert: '^' },
 
+  { label: '00', insert: '00' },
   { label: '0', insert: '0' },
   { label: '.', insert: '.' },
-  { label: '^', cls: 'op', insert: '^' },
   { label: '+', cls: 'op', insert: '+' },
-
-  { label: '(', cls: 'fn', insert: '(' },
-  { label: ')', cls: 'fn', insert: ')' },
-  { label: 'π', cls: 'fn', insert: 'pi' },
   { label: '=', cls: 'eq', action: 'equals' },
 ];
 
@@ -237,6 +237,8 @@ export class BasicMode implements CalculatorMode {
       this.equals();
     } else if (action === 'percent') {
       this.handlePercent();
+    } else if (action === 'negate') {
+      this.negate();
     }
     this.update();
   }
@@ -248,6 +250,17 @@ export class BasicMode implements CalculatorMode {
       const num = parseFloat(match[1]);
       const before = this.expression.slice(0, -match[1].length);
       this.expression = before + String(num / 100);
+    }
+  }
+
+  private negate(): void {
+    if (!this.expression) return;
+    if (/^-?\d+(\.\d+)?$/.test(this.expression)) {
+      this.expression = this.expression.startsWith('-')
+        ? this.expression.slice(1)
+        : '-' + this.expression;
+    } else {
+      this.expression = '-(' + this.expression + ')';
     }
   }
 
