@@ -189,6 +189,7 @@ body {
   flex: 1;
   min-width: 0;
   max-width: 520px;
+  margin: 0 auto;
 }
 
 .basic-grid button {
@@ -285,25 +286,10 @@ body {
   background: var(--btn-hover);
 }
 
-/* ---------- Result row (display + copy) ---------- */
-.basic-result {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-right: 12px;
-}
-
-.basic-result .basic-display {
-  flex: 1;
-  width: auto;
-  min-width: 0;
-}
-
-.basic-result .basic-copy-btn {
-  font-size: 17px;
-  padding: 6px 8px;
-  background: var(--btn-num);
-  border: 1px solid var(--border);
+.basic-copy-btn {
+  width: 30px;
+  padding: 4px 0;
+  text-align: center;
 }
 
 /* ---------- Memory Row ---------- */
