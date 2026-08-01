@@ -390,12 +390,59 @@ body {
 
 /* ---------- Text Mode ---------- */
 .text-mode {
-  display: grid;
-  grid-template-columns: 1fr 220px;
+  display: flex;
+  flex-direction: column;
   gap: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+.text-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-alt);
+}
+
+.text-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.text-copy-btn,
+.text-help-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 15px;
+  padding: 4px 0;
+  width: 30px;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  transition: background 0.12s, color 0.12s;
+}
+
+.text-copy-btn:hover,
+.text-help-btn:hover {
+  background: var(--btn-hover);
+}
+
+.text-help-btn.active {
+  color: var(--accent);
+}
+
+.text-body {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 0;
   flex: 1;
   min-height: 0;
 }
@@ -423,6 +470,48 @@ body {
   line-height: 24px;
   overflow-y: auto;
   min-height: 0;
+}
+
+.text-docs {
+  border-top: 1px solid var(--border);
+  background: var(--surface-alt);
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 14px;
+  transition: max-height 0.25s ease, padding 0.25s ease;
+}
+
+.text-docs.open {
+  max-height: 45%;
+  overflow-y: auto;
+  padding: 10px 14px;
+}
+
+.doc-section {
+  margin-bottom: 10px;
+}
+
+.doc-section h4 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.doc-section p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.doc-section code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--btn-num);
+  color: var(--text);
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
 }
 
 .text-results .line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -618,7 +707,7 @@ body {
   .tabs { flex: 1; }
   .tab { flex: 1; text-align: center; padding: 8px 6px; }
 
-  .text-mode { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  .text-body { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
   .text-results {
     border-left: none;
     border-top: 1px solid var(--border);
