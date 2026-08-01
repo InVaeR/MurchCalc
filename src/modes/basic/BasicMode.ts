@@ -108,7 +108,7 @@ export class BasicMode implements CalculatorMode {
     this.copyBtn.title = 'Копировать результат';
     this.copyBtn.addEventListener('click', () => this.handleCopy());
 
-    top.append(this.historyBtn, titleEl, this.memIndicator, this.copyBtn);
+    top.append(titleEl, this.memIndicator, this.copyBtn, this.historyBtn);
 
     const body = document.createElement('div');
     body.className = 'basic-body';
