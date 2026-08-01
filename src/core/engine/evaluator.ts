@@ -15,6 +15,8 @@ import { Lexer } from './lexer';
 import { Parser } from './parser';
 import { FunctionRegistry } from './functions';
 
+const FACTORIAL_MAX = 500;
+
 export class Evaluator implements Engine {
   private context: EvaluationContext;
   private lexer = new Lexer();
@@ -90,6 +92,7 @@ export class Evaluator implements Engine {
         switch (node.operator) {
           case '+': return arg;
           case '-': return arg.negated();
+          case '!': return this.factorial(arg);
           default: throw new Error(`Неизвестный унарный оператор: ${node.operator}`);
         }
       }
@@ -110,6 +113,9 @@ export class Evaluator implements Engine {
           );
         }
         const result = func.fn(...args.map((a) => a.toNumber()));
+        if (!Number.isFinite(result)) {
+          throw new Error(`Функция ${name}: результат вне области определения`);
+        }
         return new Decimal(result);
       }
 
@@ -132,6 +138,21 @@ export class Evaluator implements Engine {
       default:
         throw new Error(`Неизвестный тип узла: ${node.type}`);
     }
+  }
+
+  private factorial(n: Decimal): Decimal {
+    if (!n.isInteger() || n.isNegative()) {
+      throw new Error('Факториал определён только для целых неотрицательных чисел');
+    }
+    if (n.greaterThan(FACTORIAL_MAX)) {
+      throw new Error(`Факториал: максимум ${FACTORIAL_MAX}!`);
+    }
+    let result = new Decimal(1);
+    const limit = n.toNumber();
+    for (let i = 2; i <= limit; i++) {
+      result = result.times(i);
+    }
+    return result;
   }
 
   setVariable(name: string, value: number): void {

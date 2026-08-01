@@ -49,4 +49,9 @@ describe('Text Mode lineEngine', () => {
     const r2 = computeLines('x + 1', e);
     expect(r2[0].error).toBeDefined();
   });
+
+  it('работает с новыми фичами движка (факториал, научная нотация)', () => {
+    const r = run('n = 5\nn! + 1e2');
+    expect(r[1].value).toBe(220);
+  });
 });

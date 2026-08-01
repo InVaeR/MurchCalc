@@ -18,6 +18,7 @@ export class TextMode implements CalculatorMode {
   private textarea!: HTMLTextAreaElement;
   private resultsEl!: HTMLElement;
   private debounce = 0;
+  private syncing = false;
 
   mount(container: HTMLElement, engine: Engine): void {
     this.engine = engine;
@@ -32,11 +33,21 @@ export class TextMode implements CalculatorMode {
     this.textarea.value = DEFAULT_CONTENT;
     this.textarea.addEventListener('input', () => this.scheduleRecalc());
     this.textarea.addEventListener('scroll', () => {
+      if (this.syncing) return;
+      this.syncing = true;
       this.resultsEl.scrollTop = this.textarea.scrollTop;
+      this.syncing = false;
     });
 
     this.resultsEl = document.createElement('div');
     this.resultsEl.className = 'text-results';
+    // Двусторонняя синхронизация прокрутки
+    this.resultsEl.addEventListener('scroll', () => {
+      if (this.syncing) return;
+      this.syncing = true;
+      this.textarea.scrollTop = this.resultsEl.scrollTop;
+      this.syncing = false;
+    });
 
     wrap.append(this.textarea, this.resultsEl);
     container.appendChild(wrap);

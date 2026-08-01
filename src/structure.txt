@@ -2,26 +2,29 @@
 // src/
 // ├── core/                      # Ядро, независимое от UI
 // │   ├── engine/                # Математический движок
-// │   │   ├── functions.ts       # Реестр функций (sin, sqrt...)
+// │   │   ├── functions.ts       # Реестр функций (sin, sqrt, ln, exp, cbrt...)
 // │   │   ├── evaluator.test.ts
-// │   │   ├── evaluator.ts       # Вычисление AST (+ setVariable/clearVariables)
-// │   │   ├── lexer.ts           # Токенизация
-// │   │   └── parser.ts          # AST
+// │   │   ├── evaluator.ts       # Вычисление AST (+ факториал, setVariable/clearVariables)
+// │   │   ├── lexer.ts           # Токенизация (+ научная нотация 1e3)
+// │   │   └── parser.ts          # AST (+ постфиксный факториал !)
 // │   ├── ModeRegistry.ts        # Реестр режимов
 // │   └── types.ts               # Общие типы (Engine, CalculatorMode...)
 // │
 // ├── modes/                     # Режимы (реализуют CalculatorMode)
 // │   ├── basic/
-// │   │   └── BasicMode.ts       # Кнопочный калькулятор
-// │   └── text/
-// │       ├── TextMode.ts        # Построчный ввод + результаты
-// │       ├── lineEngine.ts      # Построчный вычислитель (тестируемый)
-// │       └── lineEngine.test.ts
+// │   │   └── BasicMode.ts       # Кнопочный калькулятор (история, память, копирование)
+// │   ├── text/
+// │   │   ├── TextMode.ts        # Построчный ввод + результаты (двусторонний скролл)
+// │   │   ├── lineEngine.ts      # Построчный вычислитель (тестируемый)
+// │   │   └── lineEngine.test.ts
+// │   └── converter/
+// │       └── ConverterMode.ts   # Конвертер величин (длина, масса, температура,
+// │                              # данные, время, скорость); значение = выражение
 // │
 // ├── ui/                        # UI-слой (vanilla DOM)
-// │   ├── App.ts                 # Оболочка: табы, тема, контейнер режима
+// │   ├── App.ts                 # Оболочка: табы (header-controls), тема, контейнер
 // │   └── theme/
-// │       └── theme.css          # Темы (светлая/тёмная) + адаптив
+// │       └── theme.css          # Темы + адаптив (100dvh, брейкпоинты по высоте)
 // │
 // ├── storage/
 // │   └── LocalStore.ts          # Версионируемое хранилище (LocalStorage)

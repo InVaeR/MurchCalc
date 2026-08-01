@@ -60,7 +60,13 @@ export class App {
       themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
     });
 
-    header.append(title, this.tabsEl, themeBtn);
+    // Группа управления (табы + тема) — переносится единым блоком
+    // на узких экранах.
+    const controls = document.createElement('div');
+    controls.className = 'header-controls';
+    controls.append(this.tabsEl, themeBtn);
+
+    header.append(title, controls);
 
     this.container = document.createElement('main');
     this.container.className = 'mode-container';

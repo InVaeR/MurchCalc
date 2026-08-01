@@ -4,6 +4,7 @@
  * term:       * / %
  * power:      ^ (правоассоциативный)
  * unary:      унарные + -
+ * postfix:    факториал !
  * call:       вызов функции f(...)
  * primary:    число, идентификатор, константа, ( expr )
  */
@@ -101,7 +102,22 @@ export class Parser {
       const argument = this.parseUnary(s);
       return { type: NodeType.UnaryExpression, argument, operator, position: argument.position };
     }
-    return this.parseCall(s);
+    return this.parsePostfix(s);
+  }
+
+  // постфиксный факториал: 5!, 3!! и т.п.
+  private parsePostfix(s: TokenStream): ASTNode {
+    let node = this.parseCall(s);
+    while (s.matchOp('!')) {
+      s.advance();
+      node = {
+        type: NodeType.UnaryExpression,
+        argument: node,
+        operator: '!',
+        position: node.position,
+      };
+    }
+    return node;
   }
 
   // вызов функции

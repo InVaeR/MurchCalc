@@ -1,11 +1,12 @@
 /**
  * Лексер для разбора математических выражений.
  * Токенизирует строку в числа, операторы, идентификаторы, скобки, ключевые слова.
+ * Поддерживает научную нотацию (1e3, 2.5E-2) и постфиксный факториал (!).
  */
 import { Token, TokenType, Position, LexerResult } from '../types';
 
 const KEYWORDS = new Set(['pi', 'e']);
-const OPERATORS = new Set(['+', '-', '*', '/', '%', '^']);
+const OPERATORS = new Set(['+', '-', '*', '/', '%', '^', '!']);
 const PUNCTUATORS = new Set(['(', ')', ',', '=']);
 
 export class Lexer {
@@ -50,7 +51,7 @@ export class Lexer {
         continue;
       }
 
-      // Числа (включая дробные)
+      // Числа (включая дробные и научную нотацию: 1e3, 2.5E-2)
       if (isDigit(char) || (char === '.' && isDigit(input[position + 1]))) {
         const start = position;
         const startPos = pos();
@@ -64,6 +65,17 @@ export class Lexer {
           while (position < input.length && isDigit(input[position])) {
             position++;
             column++;
+          }
+        }
+        // Экспоненциальная часть — только если за e/E следует [+-]?цифра,
+        // иначе 'e' остаётся отдельным токеном (константа Эйлера).
+        if (input[position] === 'e' || input[position] === 'E') {
+          let j = position + 1;
+          if (input[j] === '+' || input[j] === '-') j++;
+          if (isDigit(input[j])) {
+            while (j < input.length && isDigit(input[j])) j++;
+            column += j - position;
+            position = j;
           }
         }
         tokens.push({
